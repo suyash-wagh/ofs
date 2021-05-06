@@ -33,7 +33,7 @@ const showToast = (msg) => {
   toast.classList.add("show");
   toastTimer = setTimeout(() => {
     //toast.classList.remove("show");
-    toast.style.transform= "translate(-50%,0)";
+    toast.style.transform= "translate(-50%,60)";
   }, 2000);
 };
 
