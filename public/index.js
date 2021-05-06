@@ -25,6 +25,18 @@ browseBtn.addEventListener("click", () => {
   fileInput.click();
 });
 
+let toastTimer;
+const showToast = (msg) => {
+  toast.innerText = msg;
+  toast.style.transform= "translate(-50%,0)";
+  clearTimeout(toastTimer);
+  toast.classList.add("show");
+  toastTimer = setTimeout(() => {
+    //toast.classList.remove("show");
+    toast.style.transform= "translate(-50%,0)";
+  }, 2000);
+};
+
 dropZone.addEventListener("drop", (e) => {
   e.preventDefault();
   //   console.log("dropped", e.dataTransfer.files[0].name);
@@ -128,45 +140,4 @@ const onFileUploadSuccess = (res) => {
   fileURL.value = url;
 };
 
-emailForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // stop submission
-
-  // disable the button
-  emailForm[2].setAttribute("disabled", "true");
-  emailForm[2].innerText = "Sending";
-
-  const url = fileURL.value;
-
-  const formData = {
-    uuid: url.split("/").splice(-1, 1)[0],
-    emailTo: emailForm.elements["to-email"].value,
-    emailFrom: emailForm.elements["from-email"].value,
-  };
-  console.log(formData);
-  fetch(emailURL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        showToast("Email Sent");
-        sharingContainer.style.display = "none"; // hide the box
-      }
-    });
-});
-
-let toastTimer;
-// the toast function
-const showToast = (msg) => {
-  clearTimeout(toastTimer);
-  toast.innerText = msg;
-  toast.classList.add("show");
-  toastTimer = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2000);
-};
 
